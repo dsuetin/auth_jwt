@@ -1,7 +1,7 @@
 class UserController {
     async registration(req, res, next) {
         try {
-
+            console.log('hui');
         } catch (error) {
             console.log(error);
         }
@@ -35,6 +35,7 @@ class UserController {
         }
     }
     async getUsers(req, res, next) {
+        console.log("yyyyyyyyy");
         try {
             res.json(['123', '456']);
         } catch (error) {
