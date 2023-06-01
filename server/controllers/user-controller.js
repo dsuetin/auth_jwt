@@ -1,6 +1,8 @@
+const userService = require('../service/user-service');
 class UserController {
     async registration(req, res, next) {
         try {
+            const { email, password } = req.body;
             console.log('hui');
         } catch (error) {
             console.log(error);
