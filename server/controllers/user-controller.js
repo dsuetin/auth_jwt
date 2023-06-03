@@ -1,4 +1,5 @@
 const userService = require('../service/user-service');
+require('dotenv').config({ path: require('find-config')('.env') })
 class UserController {
     async registration(req, res, next) {
         console.log('!!!!!!!!!!!');
@@ -8,7 +9,6 @@ class UserController {
             console.log('email', email);
             console.log('password', password);
             const userData = await userService.registration(email, password);
-            console.log('hui');
             console.log('userData', userData);
             res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true});
             return res.json(userData);
@@ -34,9 +34,13 @@ class UserController {
     }
     async activate(req, res, next) {
         try {
-
+            const activationLink = req.params.link;
+            console.log('activationLink', activationLink)
+            console.log('process.env.CLIENT_URL', process.env.CLIENT_URL)
+            await userService.activate(activationLink);
+            return res.redirect(process.env.CLIENT_URL);
         } catch (error) {
-            console.log(error);
+            console.log('activate', error);
         }
     }
     async refresh(req, res, next) {

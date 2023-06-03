@@ -17,11 +17,22 @@ class UserService {
         await mailService.sendActivationMail(email, `${process.env.API_URL}/api/activate/${activationLink}`);
 
         const userDto = new UserDto(user);
-        const tokens = tokenService.generateTokens({...userDto});
+        const tokens = tokenService.generateTokens({...userDto });
         await tokenService.saveToken(userDto.id, tokens.refreshToken);
 
         return {...tokens, user: userDto}
         
+    }
+
+    async activate(activationLink) {
+        console.log('activate in servise', activationLink)
+        const user = await UserModel.findOne({ activationLink });
+        if (!user) {
+            throw new Error('Error: Activation link is uncorrect');
+        }
+        user.isActivated = true;
+        await user.save();
+
     }
 }
 
