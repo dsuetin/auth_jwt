@@ -2,9 +2,12 @@ import { makeAutoObservable } from "mobx";
 import { IUser } from "../models/IUser";
 import AuthService from "../services/AuthService";
 import axios from "axios";
+import { AuthResponse } from "../models/response/AuthResponse";
+import { API_URL } from "../http";
 export default class Store {
     user = {} as IUser;
     isAuth = false;
+
     constructor() {
         makeAutoObservable(this);
     }
@@ -18,9 +21,11 @@ export default class Store {
     }
 
     async login(email: string, password: string) {
+        console.log('email', email);
+        console.log('password', password);
         try {
             const response = await AuthService.login(email, password);
-            console.log("login response", response);
+            // console.log("login response", response);
             localStorage.setItem("token", response.data.accessToken);
             this.setAuth(true);
             this.setUser(response.data.user);
@@ -71,7 +76,12 @@ export default class Store {
 
     async checkAuth() {
         try {
-            const response = await AuthService.checkAuth();
+            const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, {withCredentials: true});
+            console.log("checkAuth response", response);
+            localStorage.setItem("token", response.data.accessToken);
+            this.setAuth(true);
+            this.setUser(response.data.user);
+
         } catch (error) {
             let errorMessage = "Failed in checkAuth";
             if (error instanceof Error) {
