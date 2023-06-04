@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const tokenModel = require('../models/token-model');
+const tokenModel = require('../models/token-model');00000000000000
 class TokenService {
     generateTokens(payload) {
         const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, {expiresIn: '30m'});
@@ -11,6 +11,8 @@ class TokenService {
     } 
 
     validateAccessToken(token) {
+        console.log("process.env.JWT_ACCESS_SECRET", process.env.JWT_ACCESS_SECRET)
+        console.log("token", token)
         try {
             const userData = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
             return userData;
