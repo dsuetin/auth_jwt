@@ -4,12 +4,14 @@ module.exports = function (req, res, next) {
     try {
         const authorizathionHeader = req.headers.authorization;
 
-        // console.log('authorizathionHeader', authorizathionHeader);
+        console.log('req', req);
+        console.log('authorizathionHeader', authorizathionHeader);
         if (!authorizathionHeader) {
-            return next(ApiError.UnauthorizedError());    
+
+            return next(ApiError.DontHaveAccessTokenError());    
         }
         const accessToken = authorizathionHeader.split(' ')[1];
-        // console.log('accessToken', accessToken);
+        console.log('accessToken', accessToken);
         if (!accessToken) {
             return next(ApiError.UnauthorizedError());    
         }

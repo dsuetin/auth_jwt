@@ -21,12 +21,12 @@ const LoginForm: FC = () => {
             <input
                 onChange={ e => setPassword(e.target.value) }
                 value={ password }
-                type="text"
+                type="password"
                 placeholder="Passowrd"
             />
             <button onClick={() => store.login(email, password)}>Login</button>
             <button onClick={() => store.registration(email, password)}>Register</button>
-            {/* <button onClick={() => store.logout()}>Logout</button> */}
+            <button onClick={() => store.logout()}>Logout</button>
 
 
         </div>

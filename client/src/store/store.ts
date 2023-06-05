@@ -29,8 +29,8 @@ export default class Store {
         console.log('password', password);
         try {
             const response = await AuthService.login(email, password);
-            // console.log("login response", response);
-            localStorage.setItem("token", response.data.accessToken);
+            console.log("login response", response);
+            localStorage.setItem('token', response.data.accessToken);
             this.setAuth(true);
             this.setUser(response.data.user);
 
@@ -82,8 +82,8 @@ export default class Store {
         this.setLoadig(true);
         try {
             const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, {withCredentials: true});
-            console.log("checkAuth response", response);
-            localStorage.setItem("token", response.data.accessToken);
+            console.log("checkAuth response529", response);
+            localStorage.setItem('token', response.data.accessToken);
             this.setAuth(true);
             this.setUser(response.data.user);
 

@@ -15,4 +15,8 @@ module.exports = class ApiError extends Error {
     static BadRequest(message, errors = []) {
         return new ApiError(400, message, errors);
     };
+
+    static DontHaveAccessTokenError() {
+        return new ApiError(401, 'Error: Not access token');
+    };
 };

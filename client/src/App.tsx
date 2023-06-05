@@ -16,18 +16,23 @@ const App: FC = () => {
   async function getUsers() {
     try {
       const response = await UserService.fetchUsers();
+      console.log('in getUsers', response)
       setUsers(response.data);
     } catch (e) {
       console.log(e);
     }
   }
 
-  if (store.isLoading) {
-    return <div className="loading">Loading...</div>;
-  }
+  // if (store.isLoading) {
+  //   return <div className="loading">Loading...</div>;
+  // }
   if (!store.isAuth) {
     return (
-      <LoginForm />
+      <div>
+        <LoginForm />  
+        <button onClick={getUsers}>Get Users</button>
+      </div>
+      
     );
   };
   return (
@@ -37,7 +42,7 @@ const App: FC = () => {
       <div>
         <button onClick={getUsers}>Get Users</button>
       </div>
-      { users.map((user) => <div key={user.email}>{user.email}</div>) }
+      {/* { users.map((user) => <div key={user.email}>{user.email}</div>) } */}
     </div>
   );
 };
