@@ -7,6 +7,7 @@ import { API_URL } from "../http";
 export default class Store {
     user = {} as IUser;
     isAuth = false;
+    isLoading = false;
 
     constructor() {
         makeAutoObservable(this);
@@ -19,6 +20,9 @@ export default class Store {
     setUser(user: IUser) {
         this.user = user;
     }
+    setLoadig(bool: boolean) {
+        this.isLoading = bool;
+    };
 
     async login(email: string, password: string) {
         console.log('email', email);
@@ -75,6 +79,7 @@ export default class Store {
     }
 
     async checkAuth() {
+        this.setLoadig(true);
         try {
             const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, {withCredentials: true});
             console.log("checkAuth response", response);
@@ -88,6 +93,8 @@ export default class Store {
                 errorMessage = error.message;
             }
             console.log(errorMessage);
+        } finally {
+            this.setLoadig(false);
         }
     }
 }

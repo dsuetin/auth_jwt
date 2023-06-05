@@ -1,10 +1,14 @@
 import React, { FC, useContext } from 'react';
 import { Context } from '../index';
+import { observer } from 'mobx-react-lite';
 
 const LoginForm: FC = () => {
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const { store } = useContext(Context);
+    console.log('LoginForm email', email)
+    console.log('LoginForm password', password)
+    console.log('LoginForm store', store)
 
     return (
         <div>
@@ -29,4 +33,4 @@ const LoginForm: FC = () => {
     );
 };
 
-export default LoginForm;
+export default observer(LoginForm);
