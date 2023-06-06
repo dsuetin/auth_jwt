@@ -11,13 +11,18 @@ const App: FC = () => {
     if (localStorage.getItem('token')) {
       store.checkAuth();
     }
+    setUsers([] as IUser[]);
   }, []);
 
   async function getUsers() {
     try {
       const response = await UserService.fetchUsers();
       console.log('in getUsers', response)
-      setUsers(response.data);
+      if(store.user.isActivated) {
+        setUsers(response.data);
+      } else {
+        setUsers([] as IUser[]);
+      };
     } catch (e) {
       console.log(e);
     }
@@ -38,11 +43,12 @@ const App: FC = () => {
   return (
     <div>
       <h1>{store.isAuth ? `User ${store.user.email} is authorized` : 'Authorizing'}</h1>
+      <h1>{store.user.isActivated ? 'Account is confirm via email' : 'Confirm you account'}</h1>
       <button onClick={() => store.logout()}>Logout</button>
       <div>
         <button onClick={getUsers}>Get Users</button>
       </div>
-      {/* { users.map((user) => <div key={user.email}>{user.email}</div>) } */}
+      { users.map((user) => <div key={user.email}>{user.email}</div>) }
     </div>
   );
 };
